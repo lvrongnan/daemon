@@ -47,11 +47,13 @@ func ExecPath() (string, error) {
 
 // Lookup path for executable file
 func executablePath(name string) (string, error) {
-	if path, err := exec.LookPath(name); err == nil {
-		if _, err := os.Stat(path); err == nil {
-			return path, nil
-		}
-	}
+	// 取消此部分功能，防止用户系统环境变量设置错误，例如PATH设置为：.:/usr/local/:...
+	// 上面的.会导致service文件中路径不是绝对路径，导致start时找不到路径而不能启动
+	//if path, err := exec.LookPath(name); err == nil {
+	//	if _, err := os.Stat(path); err == nil {
+	//		return path, nil
+	//	}
+	//}
 	return os.Executable()
 }
 
